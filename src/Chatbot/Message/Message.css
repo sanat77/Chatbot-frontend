@@ -1,0 +1,63 @@
+.message-container {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 390px;
+}
+
+.human {
+    margin-left: 100px;
+    border-radius: 20px;
+    background-color: rgb(177, 177, 177);
+    box-shadow: 0 1px 2px 1px rgb(65, 65, 65);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.human .icon {
+    display: inline-block;
+    color: rgb(247, 247, 247);
+    border-radius: 100%;
+    box-shadow: 0 0 2px rgb(65, 65, 65);
+    background-color: rgb(193, 111, 211);
+    padding: 0.7em 0.7em;
+    padding-left: 0.9em;
+    padding-right: 0.9em;
+    margin-left: 240px;
+    margin-right: 0px;
+}
+
+.human .message {
+    display: inline-block;
+    margin-left: 30px;
+    margin-right: 60px;
+}
+
+.bot {
+    margin-right: 100px;
+    background-color: rgb(223, 223, 223);
+    box-shadow: 0 1px 2px 1px rgb(65, 65, 65);
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.bot .icon {
+    display: inline-block;
+    color: rgb(247, 247, 247);
+    border-radius: 100%;
+    box-shadow: 0 0 2px rgb(65, 65, 65);
+    background-color: rgb(133, 169, 106);
+    padding: 0.7em 0.7em;
+    padding-left: 0.9em;
+    padding-right: 0.9em;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.bot .message {
+    display: inline-block;
+    margin-left: 60px;
+    margin-right: 30px;
+}
