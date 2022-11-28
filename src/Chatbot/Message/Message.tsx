@@ -3,6 +3,7 @@ import "./Message.css";
 export const Message = (props: {
     user: string;
     message: string;
+    loading: boolean;
 }) => {
     return (
         <div className="message-container">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Chatbot } from "./Chatbot/Chatbot";
 import { Form } from "./Chatbot/Form/Form";
@@ -9,8 +9,11 @@ import './App.css';
 export const App = () => {
 
     const [displayMessage, setDisplayMessage] = useState<IDisplayMessage[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    const sleep = (ms: any) => new Promise(r => setTimeout(r, ms));
     
-    const handleHumanChange = (message: string) => {
+    const handleHumanChange = async (message: string) => {
         if (!message) {
             return;
         }
@@ -19,6 +22,10 @@ export const App = () => {
             message: message
         }
         setDisplayMessage(oldMessages => [...oldMessages, newMessage]);
+        
+        setLoading(true);
+
+        await sleep(5000);
 
         // provide action on the message
 
@@ -27,12 +34,13 @@ export const App = () => {
             message: 'changing my reply'
         }
         setDisplayMessage(oldMessages => [...oldMessages, botReply]);
+        setLoading(false);
     }
 
     return (
       <div className='box'>
         <div className='bot-container'>
-            <Chatbot displayMessages={displayMessage}></Chatbot>
+            <Chatbot displayMessages={displayMessage} loading={loading}></Chatbot>
         </div>
         <div className="form">
             <Form handleChange={handleHumanChange}></Form>
