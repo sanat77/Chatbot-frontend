@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { Chatbot } from "./Chatbot/Chatbot";
 import { Form } from "./Chatbot/Form/Form";
-import { IDisplayMessage } from "./IDisplayMessage.type";
+import { IDisplayMessage } from "./models/IDisplayMessage.type";
 
 import './App.css';
 
@@ -21,7 +21,7 @@ export const App = () => {
         setDisplayMessage(oldMessages => [...oldMessages, newMessage]);
 
         // provide action on the message
-        
+
         const botReply = {
             user: 'bot',
             message: 'changing my reply'

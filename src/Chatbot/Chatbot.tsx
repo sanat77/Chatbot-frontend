@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { Message } from "./Message/Message";
-import { IDisplayMessage } from "../IDisplayMessage.type";
+import { IDisplayMessage } from "../models/IDisplayMessage.type";
 
 import "./Chatbot.css";
 
