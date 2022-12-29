@@ -2,4 +2,5 @@
 export interface IDisplayMessage {
     user: string;
     message: string;
+    messageId: string;
 }

@@ -1,38 +1,68 @@
+// react imports
 import { useState } from "react";
 
+// file imports
 import { Chatbot } from "./Chatbot/Chatbot";
 import { Form } from "./Chatbot/Form/Form";
+
+// model imports
 import { IDisplayMessage } from "./models/IDisplayMessage.type";
 
+// utility imports
+import uuidv4 from "uuidv4";
+import { Users } from "./utility/constants";
+import { apiPostBotMessage, apiPostHumanMessage } from "./utility/apiService";
+import { sleep } from "./utility/sleep";
+
+// style imports
 import './App.css';
 
 export const App = () => {
 
     const [displayMessage, setDisplayMessage] = useState<IDisplayMessage[]>([]);
     const [loading, setLoading] = useState(false);
-
-    const sleep = (ms: any) => new Promise(r => setTimeout(r, ms));
     
     const handleHumanChange = async (message: string) => {
         if (!message) {
             return;
         }
-        const newMessage = {
-            user: 'human',
-            message: message
-        }
+        const newMessage: IDisplayMessage = {
+            user: Users.HUMAN,
+            message: message,
+            messageId: uuidv4()
+        };
+        
         setDisplayMessage(oldMessages => [...oldMessages, newMessage]);
         
         setLoading(true);
 
-        await sleep(5000);
-
-        // provide action on the message
-
-        const botReply = {
-            user: 'bot',
-            message: 'changing my reply'
+        // post human message and get a bot reply
+        let botReplyMessage;
+        try {
+            const response = await apiPostHumanMessage(newMessage);
+            botReplyMessage = response.data.message;
+            console.log("res:", response);
+        } catch (err) {
+            return err;
         }
+        
+        console.log("message from bot:", botReplyMessage);
+
+        const botReply: IDisplayMessage = {
+            user: Users.BOT,
+            message: botReplyMessage,
+            messageId: uuidv4()
+        };
+
+        await sleep(1000);
+
+        // post bot reply to backend
+        // try {
+        //     await apiPostBotMessage(botReply);
+        // } catch(err) {
+        //     return err;
+        // }
+
         setDisplayMessage(oldMessages => [...oldMessages, botReply]);
         setLoading(false);
     }
