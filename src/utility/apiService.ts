@@ -9,3 +9,7 @@ export async function apiPostHumanMessage(body: IDisplayMessage) {
 export async function apiPostBotMessage(body: IDisplayMessage) {
     return await axios.post(`${process.env.REACT_APP_WEB_API}/message/bot`, body);
 }
+
+export async function apiFetchAllMessages() {
+    return await axios.get(`${process.env.REACT_APP_WEB_API}/message`);
+}

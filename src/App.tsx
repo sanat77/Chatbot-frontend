@@ -1,5 +1,5 @@
 // react imports
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // file imports
 import { Chatbot } from "./Chatbot/Chatbot";
@@ -11,7 +11,7 @@ import { IDisplayMessage } from "./models/IDisplayMessage.type";
 // utility imports
 import uuidv4 from "uuidv4";
 import { Users } from "./utility/constants";
-import { apiPostBotMessage, apiPostHumanMessage } from "./utility/apiService";
+import { apiFetchAllMessages, apiPostBotMessage, apiPostHumanMessage } from "./utility/apiService";
 import { sleep } from "./utility/sleep";
 
 // style imports
@@ -21,6 +21,15 @@ export const App = () => {
 
     const [displayMessage, setDisplayMessage] = useState<IDisplayMessage[]>([]);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        fetchMessages();
+    }, []);
+
+    const fetchMessages = async () => {
+        const allMessages = await (await apiFetchAllMessages()).data;
+        setDisplayMessage(allMessages);
+    }
     
     const handleHumanChange = async (message: string) => {
         if (!message) {
@@ -41,12 +50,9 @@ export const App = () => {
         try {
             const response = await apiPostHumanMessage(newMessage);
             botReplyMessage = response.data.message;
-            console.log("res:", response);
         } catch (err) {
             return err;
         }
-        
-        console.log("message from bot:", botReplyMessage);
 
         const botReply: IDisplayMessage = {
             user: Users.BOT,
@@ -57,11 +63,11 @@ export const App = () => {
         await sleep(1000);
 
         // post bot reply to backend
-        // try {
-        //     await apiPostBotMessage(botReply);
-        // } catch(err) {
-        //     return err;
-        // }
+        try {
+            await apiPostBotMessage(botReply);
+        } catch(err) {
+            return err;
+        }
 
         setDisplayMessage(oldMessages => [...oldMessages, botReply]);
         setLoading(false);
