@@ -13,3 +13,7 @@ export async function apiPostBotMessage(body: IDisplayMessage) {
 export async function apiFetchAllMessages() {
     return await axios.get(`${process.env.REACT_APP_WEB_API}/message`);
 }
+
+export async function apiFetchBotResponse(body: IDisplayMessage) {
+    return await axios.post(`${process.env.REACT_APP_WEB_CHATBOT_MODEL}/bot-response`, body);
+}

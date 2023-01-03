@@ -11,7 +11,7 @@ import { IDisplayMessage } from "./models/IDisplayMessage.type";
 // utility imports
 import uuidv4 from "uuidv4";
 import { Users } from "./utility/constants";
-import { apiFetchAllMessages, apiPostBotMessage, apiPostHumanMessage } from "./utility/apiService";
+import { apiFetchAllMessages, apiFetchBotResponse, apiPostBotMessage, apiPostHumanMessage } from "./utility/apiService";
 import { sleep } from "./utility/sleep";
 
 // style imports
@@ -49,7 +49,7 @@ export const App = () => {
         let botReplyMessage;
         try {
             const response = await apiPostHumanMessage(newMessage);
-            botReplyMessage = response.data.message;
+            botReplyMessage = await (await apiFetchBotResponse(newMessage)).data;
         } catch (err) {
             return err;
         }
@@ -59,8 +59,6 @@ export const App = () => {
             message: botReplyMessage,
             messageId: uuidv4()
         };
-
-        await sleep(1000);
 
         // post bot reply to backend
         try {
